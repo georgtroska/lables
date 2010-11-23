@@ -1,0 +1,51 @@
+#!/bin/bash
+COUNTER="0"
+LABELFILE="labelfile.txt"
+LATEXINPUTLABELS="inputlabels.tex"
+LBLROW="0"
+LBLCOL="0"
+MAXLBLROW="10"
+MAXLBLCOL="10"
+ZEROPOSX="10"
+ZEROPOSY="10"
+XPITCH="20"
+YPITCH="20"
+
+rm -rf $LATEXINPUTLABELS
+rm -rf $LABELFILE
+
+
+if 0; then
+while read ROW;
+do
+	echo "Processing Label named: " $ROW
+	P1=`echo $ROW|cut -f 1`
+	P2=`echo $ROW|cut -f 2`
+	P3=`echo $ROW|cut -f 3`
+	P4=`echo $ROW|cut -f 4`
+	
+	pdflatex "\newcommand{\lablep1}{$p1}\newcommand{\lablep2}{$p2}\newcommand{\lablep3}{$p3}\newcommand{\lablep4}{$p4}\input{onelabel.tex}"
+	
+	echo "Moving output to "singlelabels/label_"${COUNTER}".pdf
+	mv onelabel.pdf singlelabels/label_"${COUNTER}".pdf
+	echo singlelabels/label_"${COUNTER}".pdf >> $LABELFILE
+	COUNTER=`expr $COUNTER + 1`
+done < twolabels.txt
+fi
+
+while read ROW;
+do
+	echo "Creating Latex-Command for Label in " $ROW "at " $LBLCOL " and " $LBLROW
+	CURRENTX=`echo "${ZEROPOSX}+${XPITCH}*${LBLCOL}" | bc`
+	CURRENTY=`echo "${ZEROPOSY}+${YPITCH}*${LBLROW}" | bc`
+	
+	echo "\path(${CURRENTX}mm,${CURRENTY}mm) node[right]{\includegraphics{$ROW}};" >> $LATEXINPUTLABELS
+	LBLCOL=`expr $LBLCOL + 1`
+	if [ ${LBLCOL} -ge ${MAXLBLCOL} ]; then
+		echo "New Row!"
+		LBLCOL="0"
+		LBLROW=`expr $LBLROW + 1`
+	fi
+done < $LABELFILE
+
+pdflatex "\newcommand{\includelabels}{\input{$LATEXINPUTLABELS}}\input{alllabels.tex}"
