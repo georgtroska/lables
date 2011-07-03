@@ -1,51 +1,101 @@
 #!/bin/bash
+INPUTFILE=$1
 COUNTER="0"
 LABELFILE="labelfile.txt"
 LATEXINPUTLABELS="inputlabels.tex"
 LBLROW="0"
 LBLCOL="0"
 MAXLBLROW="10"
-MAXLBLCOL="10"
+MAXLBLCOL="5"
 ZEROPOSX="10"
 ZEROPOSY="10"
-XPITCH="20"
-YPITCH="20"
+XPITCHSIZE1="20"
+XPITCHSIZE2="35"
+YPITCH="50"
+MAXX="150"
+MAXY="280"
+
+LATEXTEMPLATE=""
 
 rm -rf $LATEXINPUTLABELS
 rm -rf $LABELFILE
+newrow() {
+CURRENTX=${ZEROPOSX}
+CURRENTY=$1
+SIZE=$2
+CURRENTY=`echo "$CURRENTY + $YPITCH" | bc`
+FREESPACEX=${MAXX}
+FREESPACEY=`echo "${MAXY} - ${CURRENTY}" | bc`
+}
+
+createbarcode() {
+OUT=$1
+uuidgen | tr [[:upper:]] [[:lower:]] | tr -d '-'  | sed -e 's/\(.\{12\}\).*/\1/' | dmtxwrite -s 16x16 -o ${OUT}.png
+}
 
 
-if 0; then
 while read ROW;
 do
 	echo "Processing Label named: " $ROW
-	P1=`echo $ROW|cut -f 1`
-	P2=`echo $ROW|cut -f 2`
-	P3=`echo $ROW|cut -f 3`
-	P4=`echo $ROW|cut -f 4`
-	
-	pdflatex "\newcommand{\lablep1}{$p1}\newcommand{\lablep2}{$p2}\newcommand{\lablep3}{$p3}\newcommand{\lablep4}{$p4}\input{onelabel.tex}"
+	P1=`echo ${ROW} | cut -d '¤' -f 1 | sed -e 's/^\ //;s/\ $//'`
+	P2=`echo ${ROW} | cut -d '¤' -f 3 | sed -e 's/^\ //;s/\ $//'`
+	P3=`echo ${ROW} | cut -d '¤' -f 4 | sed -e 's/^\ //;s/\ $//'`
+	P4=`echo ${ROW} | cut -d '¤' -f 2 | sed -e 's/^\ //;s/\ $//'`
+	P5=`echo ${ROW} | cut -d '¤' -f 5 | sed -e 's/^\ //;s/\ $//'`
+	echo "DEBUG: "$P1"|"$P2"|"$P3"|"$P4"|"$P5
+	if [ "${P5}" == "1" ]; then
+		LATEXTEMPLATE="onelabel-size1"
+	fi
+	if [ "${P5}" == "2" ]; then
+		LATEXTEMPLATE="onelabel-size2"
+	fi
+	if [ "${P5}" == "3" ]; then
+		LATEXTEMPLATE="onelabel-size3"
+	fi
+	createbarcode barcodes/barcode_${COUNTER}
+	LATEXCOMMAND="pdflatex \newcommand{\labelp}{$P1}\newcommand{\labelpp}{$P2}\newcommand{\labelppp}{$P3}\newcommand{\labelpppp}{$P4}\newcommand{\labelbarcode}{\includegraphics[width=6.5mm]{barcodes/barcode_${COUNTER}.png}}\input{\"${LATEXTEMPLATE}.tex\"}"
+	echo "Doing Command ${LATEXCOMMAND}"
+	echo ${LATEXCOMMAND} >> latexcommandfile.txt
+	${LATEXCOMMAND}
 	
 	echo "Moving output to "singlelabels/label_"${COUNTER}".pdf
-	mv onelabel.pdf singlelabels/label_"${COUNTER}".pdf
-	echo singlelabels/label_"${COUNTER}".pdf >> $LABELFILE
+	mv ${LATEXTEMPLATE}.pdf singlelabels/label_"${COUNTER}".pdf
+	echo ${P5} "¤" singlelabels/label_"${COUNTER}".pdf >> $LABELFILE
 	COUNTER=`expr $COUNTER + 1`
-done < twolabels.txt
-fi
+done < ${INPUTFILE}
 
+echo "Read in file ${INPUTFILE}"
+
+CURRENTX=${ZEROPOSX}
+CURRENTY=${ZEROPOSY}
+FREESPACEX=${MAXX}
+FREESPACEY=${MAXY}
+if [ "A" == "A" ] ; then
 while read ROW;
 do
-	echo "Creating Latex-Command for Label in " $ROW "at " $LBLCOL " and " $LBLROW
-	CURRENTX=`echo "${ZEROPOSX}+${XPITCH}*${LBLCOL}" | bc`
-	CURRENTY=`echo "${ZEROPOSY}+${YPITCH}*${LBLROW}" | bc`
+	LABELSIZE=`echo ${ROW} | cut -d '¤' -f 1 | sed -e 's/^\ //;s/\ $//'`
+	LABELPDF=`echo ${ROW} | cut -d '¤' -f 2 | sed -e 's/^\ //;s/\ $//'`
+	echo "Creating Latex-Command for Label in " $LABELPDF 
+		if [ ${LABELSIZE} == "1" ]; then
+		if [ ${FREESPACEX} -le $XPITCHSIZE1 ];then
+		newrow $CURRENTY $LABELSIZE
+		fi
+	fi
+	if [ ${LABELSIZE} == "2" ]; then
+		if [ ${FREESPACEX} -le $XPITCHSIZE2 ];then
+		newrow $CURRENTY $LABELSIZE
+		fi
+	fi
 	
-	echo "\path(${CURRENTX}mm,${CURRENTY}mm) node[right]{\includegraphics{$ROW}};" >> $LATEXINPUTLABELS
-	LBLCOL=`expr $LBLCOL + 1`
-	if [ ${LBLCOL} -ge ${MAXLBLCOL} ]; then
-		echo "New Row!"
-		LBLCOL="0"
-		LBLROW=`expr $LBLROW + 1`
+	echo "\path(${CURRENTX}mm,${CURRENTY}mm) node[right]{\includegraphics{$LABELPDF}};" >> $LATEXINPUTLABELS
+	if [ ${LABELSIZE} == "1" ];then
+		CURRENTX=`echo "${CURRENTX}+${XPITCHSIZE1}" | bc`
+		FREESPACEX=`echo "${FREESPACEX}-${XPITCHSIZE1}" | bc`
+	else
+		CURRENTX=`echo "${CURRENTX}+${XPITCHSIZE2}" | bc`
+		FREESPACEX=`echo "${FREESPACEX}-${XPITCHSIZE2}" | bc`
 	fi
 done < $LABELFILE
 
 pdflatex "\newcommand{\includelabels}{\input{$LATEXINPUTLABELS}}\input{alllabels.tex}"
+fi

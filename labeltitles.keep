@@ -1,0 +1,22 @@
+Mikrocontroller ¤ ATTiny 24-20 PU ¤ DIL-14 ¤ 2.7 - 5.5V ¤ 3
+Standardquarz ¤ 7.3728 MHz ¤ HC18/U ¤ 32pF 40$\\Omega$ ¤ 3
+Standardquarz ¤ 14.7456 MHz ¤ HC18/U ¤ 32pF 40$\\Omega$ ¤ 3
+Mikrocontroller ¤ ATTiny 13V-10 PU ¤   DIL-8 ¤ 1.8 - 5.5V ¤ 3
+SMD-Schieberegister ¤ 74HC 595 ¤ DIL-16 ¤ 8-Bit ¤ 3
+Weller ¤ Loetspitzen ¤ WSP 80 ¤ LTS LTH LTA ¤ 2
+SMD-RS232-Treiber ¤ MAX 232 ¤ SO-16 ¤ +3.0V to +5.5V ¤ 2
+SMD-12Bit-Counter ¤ HC 4040 ¤ SO-16 ¤ +2.0V to +6.0V max. 73MHz ¤ 2
+Optokoppler ¤ 4N 32 ¤ DIL-6 ¤ FW1,25V 50mA CEV 30V CI 150mA ¤ 3
+SMD-Trans. ¤ BC808-16 ¤ SOT-23 ¤ PNP 25V 1A ¤ 1
+SMD-Trans. ¤ BC818-16 ¤ SOT-23 ¤ NPN 25V 1A ¤ 1
+SMD-Optokoppler ¤ PC 357 N1T ¤ SO-4 ¤ In 50mA Out 35V 50mA ¤ 2
+SMD-Mikrocontroller ¤ ATMega 8-16 TQ ¤ TQFP-32 ¤ 4.5 to 5.5V ¤ 2
+SMD-Mikrocontroller ¤ ATTiny 24-20 SSU ¤ SOIC-14 ¤ 2.7 to 5.5V ¤ 2
+SMD-Mikrocontroller ¤ ATTiny 13V-10 SU  ¤ SOIC-8 ¤ 1.8 to 5.5V ¤ 2
+SMD-Ind. ¤ 8,2$\\mu$H ¤ 0805 ¤ Ferrit ¤ 1
+SMD-Res. ¤ 16,0 MHz ¤ 3,2x1,3 ¤ CSTCE ¤ 1
+SMD-IC USB-UART ¤ FT 232 RL ¤ SSOP-28 ¤ 1.8 to 5V ¤ 2
+SMD-Diode ¤ 1N 4001 ¤ Melf ¤ UR 50V UF 1.1V IF 1A IR 5$\\mu$A ¤ 2
+SMD-Schieberegister ¤ 74HC 595 ¤ SO-16 ¤ 8-Bit ¤ 2
+T-Sensor ¤ PT-1000 ¤ PCA/M ¤ PCA1.2005 10 ¤ 1
+Einbaubuchse ¤ USB BWM ¤ gew. Print ¤  B-Mini ¤ 2
