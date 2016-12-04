@@ -1,0 +1,81 @@
+%\documentclass[paper=133.5mm:120mm,pagesize]{scrbook}
+\documentclass[a4paper, pagesize]{scrbook}
+%\usepackage[lmargin=-3.85mm,rmargin=0cm,tmargin=0mm,bmargin=0cm]{geometry}
+\usepackage[lmargin=-3.85mm,rmargin=0cm,tmargin=1.5mm,bmargin=0cm]{geometry}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage[ngerman]{babel, varioref}
+\usepackage[T1]{fontenc}
+%\usepackage[latin1]{inputenc}
+\usepackage[applemac]{inputenc}
+\providecommand{\labelp}{Kond. RM2.5 47nF}
+
+\providecommand{\labelpp}{Hallo Georg,\\dies\\ ist ein langer Text}
+
+\providecommand{\labelppp}{TK 100}
+
+\providecommand{\labelpppp}{680k}
+\providecommand{\labelbarcode}{testbarcode.png}
+%\setlength{\leftmargin}{-4mm}
+%\setlength{\topmargin}{0mm}
+\def\Tiny{\fontsize{5pt}{5pt}\selectfont}
+\setlength{\unitlength}{1mm}
+\renewcommand{\baselinestretch}{0.75} 
+\begin{document}
+\begin{picture}(110,211.85)(-30,0)
+          
+	\begin{tikzpicture} [scale=1]
+	%\draw[blue] (0,0) grid[step=2.5mm](3,3);
+	%\draw (0,0) arc(180:270:1mm);
+	
+	\path(0mm,0mm);
+	\draw[very thin, color=gray] (0mm,0mm) -- (33.5mm, 0mm) 
+	(0mm, -10mm) -- (33.5mm, -10mm)
+	(0mm, -20mm) -- (33.5mm, -20mm) 
+	(0mm, -57mm) -- (33.5mm, -57mm)
+	(0mm, -105mm) -- (33.5mm, -105mm) % 5 horizontale
+	
+	(0mm, 0mm) -- (0mm, -105mm) % 2 vertikate
+	(33.5mm, 0mm) -- (33.5mm, -105mm)
+	
+	(0mm, -27mm) -- (-30mm,-57mm) -- (0mm, -57mm) % linke lasche
+	(-30mm, -57mm) -- (-25mm, -67mm) -- (-5mm, -67mm) -- (0, -57mm)
+	
+	(33.5mm, -27mm) -- (63.5mm,-57mm) -- (33.5mm, -57mm) % rechte lasche
+	(63.5mm, -57mm) -- (58.5mm, -67mm) -- (38.5mm, -67mm) -- (33.5mm, -57mm)
+	
+	% rahmen
+	(1.5mm, -0.5mm) -- (32mm, -0.5mm) arc(90:0:1mm) -- (33mm, -8.5mm) arc(360:270:1mm) -- (1.5mm, -9.5mm) arc(270:180:1mm) -- (0.5mm, -1.5mm) arc(180:90:1mm)
+	
+	% knicklinie
+	(-10mm,0mm) -- +(-30mm,0mm)
+	(43.5mm,0mm) -- +(30mm,0mm)
+	
+	(-10mm,-10mm) -- +(-30mm,0mm)
+	(43.5mm,-10mm) -- +(30mm,0mm)
+	
+	(-10mm,-20mm) -- +(-30mm,0mm)
+	(43.5mm,-20mm) -- +(30mm,0mm)
+	
+	(-40mm,-57mm) -- +(-10mm,0mm)
+	(73.5mm,-57mm) -- +(10mm,0mm)
+	
+	(-10mm,-105mm) -- +(-30mm,0mm)
+	(43.5mm,-105mm) -- +(30mm,0mm);
+	
+	\path(25mm, -5mm) node[right]{\includegraphics[width=6.5mm]{\labelbarcode}};
+	\path(13.75mm,-5mm) node(caption)[align=center, text width = 25mm]{\scriptsize{\texttt{\labelp}}};
+	\path(16.75mm,-25mm) node(test)[align=center, text width = 32.5mm, anchor = north]{\scriptsize{\texttt{\labelpp}}};
+%	\path(0.5mm,9.5mm) node[right]{\Tiny{\texttt{\labelppp}}};
+%	\path(0.5mm,7.5mm) node[right]{\Tiny{\texttt{\labelpppp}}};
+		\end{tikzpicture}
+		
+\end{picture}
+         
+
+         
+        
+
+ 
+
+\end{document}

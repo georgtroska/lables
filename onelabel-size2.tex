@@ -1,0 +1,55 @@
+\documentclass[paper=32mm:2cm,pagesize]{scrbook}
+%\usepackage[lmargin=-3.85mm,rmargin=0cm,tmargin=0mm,bmargin=0cm]{geometry}
+\usepackage[lmargin=-3.85mm,rmargin=0cm,tmargin=1.5mm,bmargin=0cm]{geometry}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage[ngerman]{babel, varioref}
+\usepackage[T1]{fontenc}
+%\usepackage[latin1]{inputenc}
+\usepackage[applemac]{inputenc}
+\providecommand{\labelp}{SMD-Optokoppler}
+
+\providecommand{\labelpp}{In 50mA}
+
+\providecommand{\labelppp}{Out 35V 50mA}
+
+\providecommand{\labelpppp}{PC357N1T}
+\providecommand{\labelbarcode}{}
+%\setlength{\leftmargin}{-4mm}
+%\setlength{\topmargin}{0mm}
+\def\Tiny{\fontsize{5pt}{5pt}\selectfont}
+\setlength{\unitlength}{1mm}
+\begin{document}
+          
+	\begin{tikzpicture} [scale=1]
+	%\draw[blue] (0,0) grid[step=2.5mm](3,3);
+	%\draw (0,0) arc(180:270:1mm);
+	\path(22mm,3.5mm) node[right]{\labelbarcode};
+	\path(-0.5mm,0mm);
+	\draw[very thin, color=gray]++(8mm,0mm) 
+	-- ++(21mm,0mm) 
+	arc(270:360:1mm) 
+	-- ++(0mm,15mm) 
+	arc(0:90:1mm) 
+	-- ++(-27mm,0mm) 
+	arc(90:180:1mm) 
+	-- ++(0mm,-10.3mm) 
+	arc(180:270:1mm) 
+	-- ++(1.3mm,0mm) 
+	arc(90:0:3.7mm) 
+	arc(180:270:1mm);
+	\path(16mm,15.3mm) node{\Tiny{\texttt{\labelp}}};
+	\path(16mm, 12.75mm) node{\scriptsize{\texttt{\labelpp}}};
+	\path(0.5mm,9.5mm) node[right]{\Tiny{\texttt{\labelppp}}};
+	\path(0.5mm,7.5mm) node[right]{\Tiny{\texttt{\labelpppp}}};
+	
+	
+	\end{tikzpicture}
+         
+
+         
+        
+
+ 
+
+\end{document}

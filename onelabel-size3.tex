@@ -1,0 +1,55 @@
+\documentclass[paper=32mm:48mm,pagesize]{scrbook}
+%\usepackage[lmargin=-3.85mm,rmargin=0cm,tmargin=0mm,bmargin=0cm]{geometry}
+\usepackage[lmargin=-3.85mm,rmargin=0cm,tmargin=1.5mm,bmargin=0cm]{geometry}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage[ngerman]{babel, varioref}
+\usepackage[T1]{fontenc}
+%\usepackage[latin1]{inputenc}
+\usepackage[applemac]{inputenc}
+\providecommand{\labelp}{SMD-RS232 Treiber}
+
+\providecommand{\labelpp}{SO-16 (150 mil)}
+
+\providecommand{\labelppp}{+3.0V to +5.5V}
+
+\providecommand{\labelpppp}{MAX 232}
+\providecommand{\labelbarcode}{}
+%\setlength{\leftmargin}{-4mm}
+%\setlength{\topmargin}{0mm}
+\def\Tiny{\fontsize{5pt}{5pt}\selectfont}
+\setlength{\unitlength}{1mm}
+\begin{document}
+          
+	\begin{tikzpicture} [scale=1]
+	%\draw[blue] (0,0) grid[step=2.5mm](3,3);
+	%\draw (0,0) arc(180:270:1mm);
+	\path(22mm,3.5mm) node[right]{\labelbarcode};
+	\path(-0.5mm,0mm);
+	\draw[very thin, color=gray]++(8mm,0mm) 
+	-- ++(21mm,0mm) 
+	arc(270:360:1mm) 
+	-- ++(0mm,43mm) 
+	arc(0:90:1mm) 
+	-- ++(-27mm,0mm) 
+	arc(90:180:1mm) 
+	-- ++(0mm,-38.3mm) 
+	arc(180:270:1mm) 
+	-- ++(1.3mm,0mm) 
+	arc(90:0:3.7mm) 
+	arc(180:270:1mm);
+	\path(16mm,42.5mm) node {\Tiny{\texttt{\labelp}}};
+	\path(16mm, 38.75mm) node{\scriptsize{\texttt{\labelpppp}}};
+	\path(0.5mm,29mm) node [right]{\Tiny{\texttt{\labelpp}}};
+	\path(0.5mm,27mm) node [right]{\Tiny{\texttt{\labelppp}}};
+	
+	
+	\end{tikzpicture}
+         
+
+         
+        
+
+ 
+
+\end{document}
