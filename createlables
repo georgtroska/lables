@@ -3,6 +3,8 @@ INPUTFILE=$1
 COUNTER="0"
 LABELFILE="labelfile.txt"
 LATEXINPUTLABELS="inputlabels.tex"
+BCDIR="barcodes"
+LBLDIR="singlelabels"
 LBLROW="0"
 LBLCOL="0"
 MAXLBLROW="8"
@@ -34,6 +36,9 @@ OUT=$1
 uuidgen | tr [[:upper:]] [[:lower:]] | tr -d '-'  | sed -e 's/\(.\{12\}\).*/\1/' | dmtxwrite -s 16x16 -o ${OUT}.png
 }
 
+echo "Create support directories <"$BCDIR">, <"$LBLDIR">"
+mkdir $BCDIR
+mkdir $LBLDIR
 
 while read ROW;
 do
@@ -57,15 +62,15 @@ do
 		LATEXTEMPLATE="onelabel-barcodeOnly"
 	fi
 	echo "Latextemplate is: ${LATEXTEMPLATE}"
-	createbarcode barcodes/barcode_${COUNTER}
-	LATEXCOMMAND="pdflatex \newcommand{\labelp}{$P1}\newcommand{\labelpp}{$P2}\newcommand{\labelppp}{$P3}\newcommand{\labelpppp}{$P4}\newcommand{\labelbarcode}{\includegraphics[width=6.5mm]{barcodes/barcode_${COUNTER}.png}}\input{\"${LATEXTEMPLATE}.tex\"}"
+	createbarcode $BCDIR/barcode_${COUNTER}
+	LATEXCOMMAND="pdflatex \newcommand{\labelp}{$P1}\newcommand{\labelpp}{$P2}\newcommand{\labelppp}{$P3}\newcommand{\labelpppp}{$P4}\newcommand{\labelbarcode}{\includegraphics[width=6.5mm]{$BCDIR/barcode_${COUNTER}.png}}\input{\"${LATEXTEMPLATE}.tex\"}"
 	echo "Doing Command ${LATEXCOMMAND}"
 	echo ${LATEXCOMMAND} >> latexcommandfile.txt
 	${LATEXCOMMAND}
 	
-	echo "Moving output to "singlelabels/label_"${COUNTER}".pdf
-	mv ${LATEXTEMPLATE}.pdf singlelabels/label_"${COUNTER}".pdf
-	echo ${P5} "§" singlelabels/label_"${COUNTER}".pdf >> $LABELFILE
+	echo "Moving output to "$LBLDIR/label_"${COUNTER}".pdf
+	mv ${LATEXTEMPLATE}.pdf $LBLDIR/label_"${COUNTER}".pdf
+	echo ${P5} "§" $LBLDIR/label_"${COUNTER}".pdf >> $LABELFILE
 	COUNTER=`expr $COUNTER + 1`
 done < ${INPUTFILE}
 
